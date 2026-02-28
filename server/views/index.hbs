@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {{> header}}
+    <title>{{common.common.title}}</title>
+</head>
+<body>
+    <section class="texto">
+    
+    </section>
+    
+        <section class="orden">
+            <h1>Movies: </h1>
+            <ul>
+                {{#each film}}
+                <li>
+                    <strong>{{first_name}} - {{title}} - {{release_year}}</strong><br/>
+                </li>
+                {{/each}}
+            </ul>
+
+        </section>
+        <section class="orden">
+            <h1>categorias</h1>
+            <ul>
+                {{#each category}}
+                <li>
+                    <strong>{{name}}</strong>
+                </li>
+                {{/each}}
+            </ul>
+        </section>
+    
+</body>
+</html>

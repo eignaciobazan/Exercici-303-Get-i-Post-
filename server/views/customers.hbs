@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {{> header}}
+    <title>{{common.common.title}}</title>
+</head>
+<body>
+    <section class="texto">
+    
+    </section>
+    
+    <section class="orden">
+        <h1>lista de 25 primeros actores</h1>
+        <ul>
+            {{#each customers}}
+            <li>
+                <strong>Nombre: {{first_name}} - Apellido:{{last_name}} - ID de renta:{{rental_id}} - fecha de renta: {{rental_date}}</strong>
+            </li>
+            
+            {{/each}}
+        </ul>
+    </section>
+    
+        
+    
+</body>
+</html>

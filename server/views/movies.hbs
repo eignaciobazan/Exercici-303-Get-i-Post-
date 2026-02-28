@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {{> header}}
+    <title>{{common.common.title}}</title>
+</head>
+<body>
+    <section class="texto">
+    
+    </section>
+    <section class="orden">
+        <h1>15 primeras peliculas</h1>
+        <ul>
+            {{#each film}}
+                <li>
+                    <strong>{{title}} - {{description}} - {{rating}} - {{replacement_cost}} - {{special_features}}</strong>
+                </li>
+            {{/each}}
+        </ul>
+    </section>
+    <section class="orden">
+        <h1>lista de 15 primeros actores</h1>
+        <ul>
+            {{#each film}}
+            <li>
+                <strong>{{actor}}</strong>
+            </li>
+            
+            {{/each}}
+        </ul>
+    </section>
+    
+        
+    
+</body>
+</html>
