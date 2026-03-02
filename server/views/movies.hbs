@@ -29,6 +29,33 @@
             {{/each}}
         </ul>
     </section>
+
+    <main class="container">
+    <h1>Afegir nou curs</h1>
+
+    <form method="POST" action="/create" class="form-grid">
+      <input type="hidden" name="table" value="film"/>
+
+      <label for="title">Nombre de la pelicula</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="description">description</label>
+      <input type="text" id="description" name="description" required>
+
+      <label for="rating">rating</label>
+      <input type="text" id="rating" name="rating" required>
+
+      <label for="replacement_cost">replacement_cost</label>
+      <input type="number" id="replacement_cost" name="replacement_cost" required>
+
+      <label for="special_features">special_features</label>
+      <input type="text" id="special_features" name="special_features" required>
+
+      
+
+      <button type="submit">Afegir Movie</button>
+    </form>
+  </main>
     
         
     

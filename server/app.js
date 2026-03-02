@@ -179,8 +179,44 @@ app.get('/customers', async (req, res) => {
     console.error(err);
     res.status(500).send('Error consultant la base de dades');
   }
-});
+})
 
+app.post('/create', async (req, res) => {
+  try {
+
+    const table = req.body.table
+
+    if (table == "film") {
+
+      const title = req.body.title
+      const description = req.body.description
+      const rating = req.body.rating
+      const replacement_cost = req.body.replacement_cost
+      const special_features = req.body.special_features
+
+
+
+      // Basic validation
+      if (!title || !description || !rating || !replacement_cost || !special_features) {
+        return res.status(400).send('Falten dades')
+      }
+
+      await db.query(
+        `
+        INSERT INTO film (title, description,rating,replacement_cost,special_features)
+        VALUES ("${title}", "${description}", "${rating}", "${replacement_cost}", "${special_features}")
+        `
+      )
+
+      // Redirect to list of courses
+      res.redirect('/movies')
+    }
+
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Error afegint el curs')
+  }
+});
 
 // Start server
 const httpServer = app.listen(port, () => {
