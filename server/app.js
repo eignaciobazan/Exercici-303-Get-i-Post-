@@ -109,7 +109,7 @@ app.get('/movies', async (req, res) => {
   try {
     // Obtenir les dades de la base de dades
     const filmRows = await db.query(
-      `select f.description,f.rating,f.replacement_cost,f.special_features,a.first_name as actor
+      `select f.title,f.description,f.rating,f.replacement_cost,f.special_features,a.first_name as actor
       from film f
       left join film_actor fa on f.film_id=fa.film_id
       left join actor a on fa.actor_id=a.actor_id
@@ -214,7 +214,7 @@ app.post('/create', async (req, res) => {
 
   } catch (err) {
     console.error(err)
-    res.status(500).send('Error afegint el curs')
+    res.status(500).send('Error afegint la movie')
   }
 });
 
