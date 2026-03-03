@@ -203,8 +203,8 @@ app.post('/create', async (req, res) => {
 
       await db.query(
         `
-        INSERT INTO film (title, description,rating,replacement_cost,special_features)
-        VALUES ("${title}", "${description}", "${rating}", "${replacement_cost}", "${special_features}")
+        INSERT INTO film (title, description,rating,replacement_cost,special_features, language_id)
+        VALUES ("${title}", "${description}", "${rating}", ${replacement_cost}, "${special_features}",1)
         `
       )
 
