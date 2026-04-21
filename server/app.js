@@ -183,9 +183,7 @@ app.get('/customers', async (req, res) => {
 
 app.post('/create', async (req, res) => {
   try {
-
     const table = req.body.table
-
     if (table == "film") {
 
       const title = req.body.title
@@ -217,6 +215,51 @@ app.post('/create', async (req, res) => {
     res.status(500).send('Error afegint la movie')
   }
 });
+
+app.get('/edit/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const [movie] = await db.query(`
+      SELECT * FROM film WHERE film_id = ${id}
+    `);
+
+    if (!movie.length) {
+      return res.status(404).send("Película no encontrada");
+    }
+
+    res.render('editMovie', { movie: movie[0] });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error cargando la película");
+  }
+});
+
+app.post('/update/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const { title, description, rating, replacement_cost, special_features } = req.body;
+
+    await db.query(`
+      UPDATE film
+      SET title = "${title}",
+          description = "${description}",
+          rating = "${rating}",
+          replacement_cost = ${replacement_cost},
+          special_features = "${special_features}"
+      WHERE film_id = ${id}
+    `);
+
+    res.redirect('/movies');
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error actualizando la película");
+  }
+});
+
 
 // Start server
 const httpServer = app.listen(port, () => {
