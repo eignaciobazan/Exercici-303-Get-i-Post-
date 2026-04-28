@@ -182,7 +182,7 @@ app.get('/customers', async (req, res) => {
 })
 
 app.post('/create', async (req, res) => {
-  console.log("Datos recibidos en req.body:", req.body);
+  
   try {
     const table = req.body.table
     if (table == "film") {
@@ -216,7 +216,7 @@ app.post('/create', async (req, res) => {
     res.status(500).send('Error afegint la movie')
   }
 });
-/*
+
 app.post('/update', async (req, res) => {
   try {
     const { film_id, title, description, Rating, replacement_cost, special_features, table } = req.body;
@@ -242,7 +242,33 @@ app.post('/update', async (req, res) => {
     console.error(err);
     res.status(500).send('Error actualizando: ' + err.message);
   }
-});*/
+});
+
+app.post('/delete', async (req, res) => {
+  try {
+    const { film_id, table } = req.body;
+
+    if (table === "film") {
+      // Validación: Necesitamos el ID para saber qué borrar
+      if (!film_id) {
+        return res.status(400).send('Falta el ID de la película para borrar');
+      }
+
+      const sql = `DELETE FROM film WHERE film_id = ${film_id}`;
+
+      await db.query(sql);
+
+      console.log(`Película con ID ${film_id} eliminada correctamente`);
+      
+      // Redirigimos a la lista para ver que ya no está
+      res.redirect('/movies');
+    }
+  } catch (err) {
+    console.error(err);
+    // Error común: No se puede borrar si la película está siendo usada en otra tabla (ej. inventario)
+    res.status(500).send('Error al eliminar: Es posible que esta película esté alquilada o en inventario.');
+  }
+});
 
 
 // Start server
