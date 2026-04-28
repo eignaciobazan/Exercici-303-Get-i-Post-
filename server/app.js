@@ -216,50 +216,33 @@ app.post('/create', async (req, res) => {
     res.status(500).send('Error afegint la movie')
   }
 });
-
-app.get('/edit/:id', async (req, res) => {
+/*
+app.post('/update', async (req, res) => {
   try {
-    const id = req.params.id;
+    const { film_id, title, description, Rating, replacement_cost, special_features, table } = req.body;
 
-    const [movie] = await db.query(`
-      SELECT * FROM film WHERE film_id = ${id}
-    `);
+    if (table === "film") {
+      // Usamos comillas dobles para envolver los textos por si tienen espacios
+      const sql = `
+        UPDATE film 
+        SET title = "${title}", 
+            description = "${description}", 
+            rating = "${Rating}", 
+            replacement_cost = ${replacement_cost}, 
+            special_features = "${special_features}" 
+        WHERE film_id = ${film_id}
+      `;
 
-    if (!movie.length) {
-      return res.status(404).send("Película no encontrada");
+      await db.query(sql); // Aquí no pasamos array, porque ya van dentro del string
+
+      console.log(`Pelicula ${film_id} actualizada`);
+      res.redirect('/movies');
     }
-
-    res.render('editMovie', { movie: movie[0] });
-
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error cargando la película");
+    res.status(500).send('Error actualizando: ' + err.message);
   }
-});
-
-app.post('/update/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-
-    const { title, description, rating, replacement_cost, special_features } = req.body;
-
-    await db.query(`
-      UPDATE film
-      SET title = "${title}",
-          description = "${description}",
-          rating = "${rating}",
-          replacement_cost = ${replacement_cost},
-          special_features = "${special_features}"
-      WHERE film_id = ${id}
-    `);
-
-    res.redirect('/movies');
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error actualizando la película");
-  }
-});
+});*/
 
 
 // Start server
