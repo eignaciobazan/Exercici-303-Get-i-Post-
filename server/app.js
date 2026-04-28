@@ -182,6 +182,7 @@ app.get('/customers', async (req, res) => {
 })
 
 app.post('/create', async (req, res) => {
+  console.log("Datos recibidos en req.body:", req.body);
   try {
     const table = req.body.table
     if (table == "film") {
