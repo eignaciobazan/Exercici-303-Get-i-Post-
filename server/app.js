@@ -249,24 +249,26 @@ app.post('/delete', async (req, res) => {
     const { film_id, table } = req.body;
 
     if (table === "film") {
-      // Validación: Necesitamos el ID para saber qué borrar
-      if (!film_id) {
-        return res.status(400).send('Falta el ID de la película para borrar');
-      }
+      if (!film_id) return res.status(400).send('Falta el ID');
 
+      // 1. Borramos  con los actores
+      await db.query(`DELETE FROM film_actor WHERE film_id = ${film_id}`);
+      
+      // 2. Borramos  con las categorías
+      await db.query(`DELETE FROM film_category WHERE film_id = ${film_id}`);
+
+      // 3.  Si hay inventario,  borrarlo 
+      await db.query(`DELETE FROM inventory WHERE film_id = ${film_id}`);
+
+      // 4. Ahora sí, borramos la película
       const sql = `DELETE FROM film WHERE film_id = ${film_id}`;
-
       await db.query(sql);
 
-      console.log(`Película con ID ${film_id} eliminada correctamente`);
-      
-      // Redirigimos a la lista para ver que ya no está
       res.redirect('/movies');
     }
   } catch (err) {
     console.error(err);
-    // Error común: No se puede borrar si la película está siendo usada en otra tabla (ej. inventario)
-    res.status(500).send('Error al eliminar: Es posible que esta película esté alquilada o en inventario.');
+    res.status(500).send('Error: Todavía hay dependencias (posiblemente en inventory o rental).');
   }
 });
 
